@@ -1,0 +1,21 @@
+[Unit]
+Description=__APP__
+After=network.target
+
+[Service]
+# This defines the installation directory/working directory
+WorkingDirectory=__INSTALL_DIR__
+EnvironmentFile=__INSTALL_DIR__/.env
+
+# The user the service runs as (change this!)
+User=__APP__
+Group=www-data
+
+# Run the Node.js application
+ExecStart=__NODEJS_DIR__/node .output/server/index.mjs
+
+# Keep the service running
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
