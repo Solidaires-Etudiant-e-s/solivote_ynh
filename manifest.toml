@@ -1,0 +1,61 @@
+packaging_format = 2
+id = "solivote"
+name = "Solivote"
+description.en = "Solivote"
+description.fr = "Solivote"
+
+version = "0.1~ynh1"
+
+maintainers = ["Armelclo"]
+
+
+[upstream]
+license = "AGPL-3.0"
+code = "https://github.com/Solidaires-Etudiant-e-s/Solivote"
+
+[integration]
+yunohost = ">= 11.1"
+helpers_version = "2.1"
+architectures = "all"
+multi_instance = false
+ldap = true
+sso = true
+disk = "100M"
+ram.build = "1G"
+ram.runtime = "512M"
+
+[install]
+    [install.domain]
+    type = "domain"
+
+    [install.init_main_permission]
+    type = "group"
+    default = "all_users"
+
+[resources]
+    [resources.sources]
+
+    [resources.sources.main]
+    url = "https://github.com/Solidaires-Etudiant-e-s/Solivote/archive/refs/tags/v0.1.tar.gz"
+    sha256 = "248c05626e2268d59e75d20e0e4a67c2adfb60886ccc519855d6c3b8d7237152"
+    autoupdate.strategy = "latest_github_tag"
+
+    [resources.system_user]
+
+    [resources.install_dir]
+    group = "www-data:r-x"
+
+    [resources.permissions]
+    main.url = "/"
+    main.allowed = "all_users"
+
+    [resources.apt]
+    packages = "mariadb-server"
+
+    [resources.database]
+    type = "mysql"
+
+    [resources.nodejs]
+    version = "22"
+
+    [resources.data_dir]
