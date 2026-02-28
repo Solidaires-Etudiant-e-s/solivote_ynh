@@ -4,7 +4,7 @@ name = "Solivote"
 description.en = "Voting system made by the French student union Solidaires Étudiant-e-s"
 description.fr = "Système de vote numérique créé par le syndicat Solidaires Étudiant-e-s"
 
-version = "0.6.2~ynh1"
+version = "0.6.2~ynh2"
 
 maintainers = ["Armelclo"]
 

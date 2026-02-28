@@ -39,7 +39,7 @@ popd
 ynh_script_progression "Updating the database for $app..."
 
 pushd "$install_dir"
-  ynh_hide_warnings ynh_exec_as_app npm run prisma:generate
+  ynh_hide_warnings ynh_exec_as_app npm run db:generate
   ynh_hide_warnings ynh_exec_as_app npm run db:deploy
 popd
 
