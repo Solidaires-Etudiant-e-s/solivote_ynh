@@ -4,7 +4,7 @@ name = "Solivote"
 description.en = "Voting system made by the French student union Solidaires Étudiant-e-s"
 description.fr = "Système de vote numérique créé par le syndicat Solidaires Étudiant-e-s"
 
-version = "1.0.3~ynh1"
+version = "1.1.0~ynh1"
 
 maintainers = ["Armelclo"]
 
@@ -36,8 +36,8 @@ ram.runtime = "512M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/Solidaires-Etudiant-e-s/Solivote/archive/refs/tags/v1.0.3.zip"
-    sha256 = "009dfe830df42a3f3a4fc39aa28298cb7a95229cc9f9ef9def0220bcc710e99a"
+    url = "https://github.com/Solidaires-Etudiant-e-s/Solivote/archive/refs/tags/v1.1.0.zip"
+    sha256 = "7dc92b615f05fcbbfa774f69c306094b11ee1c27157d9748d57659ed69288c1b"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
