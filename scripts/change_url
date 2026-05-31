@@ -8,12 +8,12 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# MODIFY URL IN NGINX CONF
+# UPDATE NGINX CONF
 #=================================================
-ynh_script_progression "Updating NGINX web server configuration..."
+ynh_script_progression "Updating nginx configuration for the new URL..."
 
-# this will most likely adjust NGINX config correctly
-ynh_config_change_url_nginx
+ynh_config_add_nginx
+ynh_systemctl --service=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT

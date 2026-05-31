@@ -4,16 +4,21 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
 source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# RESTORE THE APP MAIN DIR
+# RESTORE SOURCE AND DATA
 #=================================================
-ynh_script_progression "Restoring the app main directory..."
+ynh_script_progression "Restoring source files, data, and configuration..."
 
-ynh_restore "$install_dir"
+ynh_nodejs_install
+ynh_setup_source --dest_dir="$install_dir"
+ynh_restore "$install_dir/.env"
+ynh_restore "$install_dir/public/uploads"
+ynh_restore "$data_dir"
+prepare_mutable_paths
+fix_app_permissions
 
 #=================================================
 # RESTORE THE MYSQL DATABASE
@@ -23,17 +28,30 @@ ynh_script_progression "Restoring the MySQL database..."
 ynh_mysql_db_shell < ./db.sql
 
 #=================================================
-# RESTORE SYSTEM CONFIGURATIONS
+# RECREATE SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression "Restoring system configurations related to $app..."
+ynh_script_progression "Recreating nginx and systemd configuration..."
 
-ynh_restore "/etc/nginx/conf.d/$domain.d/$app.conf"
-ynh_restore "/etc/systemd/system/$app.service"
+ynh_config_add_nginx
+ynh_config_add_systemd
 
 #=================================================
-# RELOAD NGINX AND PHP-FPM OR THE APP SERVICE
+# REBUILD APPLICATION
 #=================================================
-ynh_script_progression "Reloading NGINX web server and $app's service..."
+ynh_script_progression "Reinstalling dependencies, syncing MySQL schema, and rebuilding $app..."
+
+pushd "$install_dir"
+  ynh_hide_warnings ynh_exec_as_app npm ci
+  ynh_hide_warnings ynh_exec_as_app npm run db:sync
+  ynh_hide_warnings ynh_exec_as_app npm run build
+popd
+
+fix_app_permissions
+
+#=================================================
+# RELOAD SERVICES
+#=================================================
+ynh_script_progression "Reloading nginx and restarting $app..."
 
 ynh_systemctl --service=nginx --action=reload
 ynh_systemctl --service="$app" --action=restart
